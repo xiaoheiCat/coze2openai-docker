@@ -30,11 +30,11 @@ jobs:
       with:
         context: .
         push: true
-        tags: ghcr.io/${{ github.repository }}:${{ github.sha }}
+        tags: ghcr.io/$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]'):${{ github.sha }}
         labels: |
           org.opencontainers.image.title=${{ github.repository }}
           org.opencontainers.image.description="Docker image for ${{ github.repository }}"
           org.opencontainers.image.source=https://github.com/${{ github.repository }}
 
     - name: Output Docker image URL
-      run: echo "Docker image URL 👉 ghcr.io/${{ github.repository }}:${{ github.sha }}"
+      run: echo "Docker image URL 👉 ghcr.io/$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]'):${{ github.sha }}"
