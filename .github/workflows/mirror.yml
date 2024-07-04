@@ -1,0 +1,40 @@
+name: Mirror Repository
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # 每天午夜运行一次
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout current repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Mirror target repository
+      run: |
+        git clone --bare https://github.com/target-user/target-repo.git
+        cd target-repo.git
+        git push --mirror https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+        cd ..
+        rm -rf target-repo.git
+
+    - name: Checkout current repository again
+      uses: actions/checkout@v2
+
+    - name: Remove .github directory and Dockerfile
+      run: |
+        rm -rf .github
+        rm -f Dockerfile
+
+    - name: Commit and push changes
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git add .
+        git diff --quiet && git diff --staged --quiet || git commit -m "Mirror update"
+        git push
