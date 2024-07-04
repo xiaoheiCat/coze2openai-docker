@@ -34,7 +34,9 @@ jobs:
       with:
         context: .
         push: true
-        tags: ghcr.io/${{ env.LOWERCASE_REPOSITORY }}:${{ github.sha }}
+        tags: |
+          ghcr.io/${{ env.LOWERCASE_REPOSITORY }}:latest
+          ghcr.io/${{ env.LOWERCASE_REPOSITORY }}:${{ github.sha }}
         labels: |
           org.opencontainers.image.title=${{ github.repository }}
           org.opencontainers.image.description="Docker image for ${{ github.repository }}"
