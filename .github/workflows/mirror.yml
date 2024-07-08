@@ -18,10 +18,10 @@ jobs:
     - name: Mirror target repository
       run: |
         git clone --bare https://github.com/fatwang2/coze2openai.git
-        cd target-repo.git
+        cd coze2openai.git
         git push --mirror https://github.com/${{ github.repository }}.git
         cd ..
-        rm -rf target-repo.git
+        rm -rf coze2openai.git
 
     - name: Checkout current repository again
       uses: actions/checkout@v2
