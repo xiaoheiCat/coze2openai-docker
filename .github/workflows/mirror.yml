@@ -17,9 +17,9 @@ jobs:
 
     - name: Mirror target repository
       run: |
-        git clone --bare https://github.com/target-user/target-repo.git
+        git clone --bare https://github.com/fatwang2/coze2openai.git
         cd target-repo.git
-        git push --mirror https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+        git push --mirror https://github.com/${{ github.repository }}.git
         cd ..
         rm -rf target-repo.git
 
